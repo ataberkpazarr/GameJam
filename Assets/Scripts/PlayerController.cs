@@ -1,8 +1,13 @@
 using UnityEngine;
+using DG.Tweening;
+using System;
+using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Transform pig;
+    [SerializeField] private GameObject diceThrowArea;
+
     //specs
     [SerializeField] [Range(0f, 10f)] private float speed = 5f, horizontalSpeed = 1f;
     //inputs
@@ -10,20 +15,28 @@ public class PlayerController : MonoBehaviour
     //states (yenileri eklenebilir delegate şeklinde kodladım (değiştirilebilir))
     private State currentState;
     private State runState;
+    private State idleState;
+
+    private bool animationPlaying = false; // state e donusturebiliriz
+
+
 
     void Start()
     {
         runState = new State(Move, () => { }, () => { });
+        idleState = new State(Idle, () => { }, () => { });
         SetState(runState);
     }
 
     void Update()
     {
-        runState.onUpdate();
+        //runState.onUpdate(); // asagıdaki gibi yaptım burayı
+        currentState.onUpdate();
     }
 
     private void SetState(State newState)
     {
+
         if (currentState != null)
             currentState.onStateExit();
 
@@ -33,7 +46,10 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        transform.Translate(Vector3.forward * speed * Time.deltaTime, Space.World);
+        //eski hali aşağıdaki gibiydi
+        /*
+         
+          transform.Translate(Vector3.forward * speed * Time.deltaTime, Space.World);
 
         if (Input.GetMouseButtonDown(0))
             mousePrePos = Input.mousePosition;
@@ -48,5 +64,64 @@ public class PlayerController : MonoBehaviour
         }
         else
             mouseDrag = Vector2.zero;
+         
+         */
+
+
+            Sequence mySequence = DOTween.Sequence();
+            mySequence.Append(transform.parent.DOMoveZ(transform.parent.position.z + 2, 1.2f));
+
+            if (Input.GetMouseButtonDown(0))
+                mousePrePos = Input.mousePosition;
+            if (Input.GetMouseButton(0))
+            {
+                mouseDrag = (Vector2)Input.mousePosition - mousePrePos;
+                mousePrePos = Input.mousePosition;
+
+                var newPigPos = pig.localPosition;
+                float newX = Mathf.Clamp(newPigPos.x + mouseDrag.x, -2.5f, 2.5f);
+
+                mySequence.Join(pig.transform.DOMoveX(newX, 0.35f));
+
+            }
+            else
+                mouseDrag = Vector2.zero;
+
+            mySequence.Play();
+        
     }
+
+    private void Idle()
+    {
+
+    }
+
+    private void OnEnable()
+    {
+
+        GambleManager.gambleAnimationHappening += handleAnimation;
+    }
+    private void OnDisable()
+    {
+        GambleManager.gambleAnimationHappening -= handleAnimation;
+    }
+
+    private void handleAnimation(float f)
+    {
+        
+        
+        StartCoroutine(GoIdleState(f));
+
+    }
+    private IEnumerator GoIdleState( float f)
+    {
+        yield return new WaitForSeconds(1f); // domuzun zar atılan alana yaklasması icin bekle
+        State previousState = currentState; // onceki statei al 
+        SetState(idleState); // idle state e gec ve animasyonu izle
+
+        yield return new WaitForSeconds(f); //animasyonu bekle
+        SetState(previousState); //onceki state e geri dön
+
+    }
+
 }
