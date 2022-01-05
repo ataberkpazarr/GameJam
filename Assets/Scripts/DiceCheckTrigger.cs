@@ -20,8 +20,8 @@ public class DiceCheckTrigger : MonoBehaviour
 	void OnTriggerStay(Collider col)
 	{
 		GameObject diceItself = col.gameObject.transform.parent.gameObject;
-
-		if (diceVelocity.x == 0f && diceVelocity.y == 0f && diceVelocity.z == 0f && diceItself.CompareTag("PlayerDice") && notFoundYetPlayerDice)
+		//if i kısalttım
+		if (diceVelocity == Vector3.zero && diceItself.CompareTag("PlayerDice") && notFoundYetPlayerDice)
 		{
 			switch (col.gameObject.name)
 			{
@@ -55,7 +55,7 @@ public class DiceCheckTrigger : MonoBehaviour
 	
 		}
 
-		else if (diceVelocity.x == 0f && diceVelocity.y == 0f && diceVelocity.z == 0f && diceItself.CompareTag("RivalDice") && notFoundYetRivalDice)
+		else if (diceVelocity == Vector3.zero && diceItself.CompareTag("RivalDice") && notFoundYetRivalDice)
 		{
 			switch (col.gameObject.name)
 			{

@@ -40,7 +40,12 @@ public class GambleManager : MonoBehaviour
     {
         Debug.Log(i.ToString() + " " + s );
 
-        //gerekli total altın azaltma & cogaltma islemi, altın animasyonu vs burada yapılacak ileride 
+        //gerekli total altın azaltma & cogaltma islemi, altın animasyonu vs burada yapılacak ileride
 
+
+        //CoinManager.AddCoin(amount);
+        //CoinManager.RemoveCoin(amount);
+        //scale up/down animasyonu için PlayerController bilgilendirilmeli (amount ile)
+        //kaybetme kazanma action ı tanımlayabiliriz?
     }
 }

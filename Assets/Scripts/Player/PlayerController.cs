@@ -3,6 +3,7 @@ using DG.Tweening;
 using System;
 using System.Collections;
 
+[SelectionBase]
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Transform pig;
@@ -19,7 +20,11 @@ public class PlayerController : MonoBehaviour
 
     private bool animationPlaying = false; // state e donusturebiliriz
 
-
+    //scaling
+    [Header("Scaling")]
+    private float scalingEndValue = 1.05f;
+    [SerializeField] private float scalingDelta = 0.05f;
+    [SerializeField] private float scalingDuration = 0.5f;
 
     void Start()
     {
@@ -36,7 +41,6 @@ public class PlayerController : MonoBehaviour
 
     private void SetState(State newState)
     {
-
         if (currentState != null)
             currentState.onStateExit();
 
@@ -67,28 +71,26 @@ public class PlayerController : MonoBehaviour
          
          */
 
+        Sequence mySequence = DOTween.Sequence();
+        mySequence.Append(transform.DOMoveZ(transform.position.z + 2, 1.2f));
 
-            Sequence mySequence = DOTween.Sequence();
-            mySequence.Append(transform.parent.DOMoveZ(transform.parent.position.z + 2, 1.2f));
+        if (Input.GetMouseButtonDown(0))
+            mousePrePos = Input.mousePosition;
+        if (Input.GetMouseButton(0))
+        {
+            mouseDrag = (Vector2)Input.mousePosition - mousePrePos;
+            mousePrePos = Input.mousePosition;
 
-            if (Input.GetMouseButtonDown(0))
-                mousePrePos = Input.mousePosition;
-            if (Input.GetMouseButton(0))
-            {
-                mouseDrag = (Vector2)Input.mousePosition - mousePrePos;
-                mousePrePos = Input.mousePosition;
+            var newPigPos = pig.localPosition;
+            float newX = Mathf.Clamp(newPigPos.x + mouseDrag.x, -2.25f, 2.25f);
 
-                var newPigPos = pig.localPosition;
-                float newX = Mathf.Clamp(newPigPos.x + mouseDrag.x, -2.5f, 2.5f);
+            mySequence.Join(pig.transform.DOMoveX(newX, 0.35f));
 
-                mySequence.Join(pig.transform.DOMoveX(newX, 0.35f));
+        }
+        else
+            mouseDrag = Vector2.zero;
 
-            }
-            else
-                mouseDrag = Vector2.zero;
-
-            mySequence.Play();
-        
+        mySequence.Play();
     }
 
     private void Idle()
@@ -98,7 +100,6 @@ public class PlayerController : MonoBehaviour
 
     private void OnEnable()
     {
-
         GambleManager.gambleAnimationHappening += handleAnimation;
     }
     private void OnDisable()
@@ -108,12 +109,9 @@ public class PlayerController : MonoBehaviour
 
     private void handleAnimation(float f)
     {
-        
-        
         StartCoroutine(GoIdleState(f));
-
     }
-    private IEnumerator GoIdleState( float f)
+    private IEnumerator GoIdleState(float f)
     {
         yield return new WaitForSeconds(1f); // domuzun zar atılan alana yaklasması icin bekle
         State previousState = currentState; // onceki statei al 
@@ -121,7 +119,30 @@ public class PlayerController : MonoBehaviour
 
         yield return new WaitForSeconds(f); //animasyonu bekle
         SetState(previousState); //onceki state e geri dön
-
     }
 
+    #region Scaling
+    private void ScaleUp()
+    {
+        scalingEndValue += scalingDelta;
+        pig.DOScale(scalingEndValue, scalingDuration);
+    }
+
+    public void ScaleByAmount(int amount)
+    {
+        float losedScale = amount * scalingDelta;//kaybedilen coin miktarı kadar küçülecek
+        scalingEndValue += losedScale;//geriye kalan scale
+        pig.DOScale(scalingEndValue, scalingDuration);
+    }
+    #endregion
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Coin"))
+        {
+            Destroy(other.gameObject);
+            CoinManager.Instance.CollectCoin();//+1 coin
+            ScaleUp();
+        }
+    }
 }
