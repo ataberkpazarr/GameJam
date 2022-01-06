@@ -39,6 +39,7 @@ public class GambleManager : MonoBehaviour
         RockPaperSciGate.timeToPlayRockPaperSci += PlayRockPaperSci;
         HeadsOrTailsGate.timeToPlayHeadsOrTails += SpawnHeadsOrTailsCoin;
         HeadOrTailsChecker.coinStopped += HandleHeadsOrTails;
+        GiftBoxGate.timeToOpenGiftBox += HandleGiftBoxResult;
     }
 
     private void OnDisable()
@@ -48,6 +49,7 @@ public class GambleManager : MonoBehaviour
         RockPaperSciGate.timeToPlayRockPaperSci -= PlayRockPaperSci;
         HeadsOrTailsGate.timeToPlayHeadsOrTails -= SpawnHeadsOrTailsCoin;
         HeadOrTailsChecker.coinStopped -= HandleHeadsOrTails;
+        GiftBoxGate.timeToOpenGiftBox -= HandleGiftBoxResult;
     }
 
     private void doDiceRolling(Vector3 vec)
@@ -166,6 +168,23 @@ public class GambleManager : MonoBehaviour
         Debug.LogError(headsOrTails.PlayerChoice + "  " + result);
 
         // player ın seçimi ile result karşılaştırılır ve altın işlemleri yapılır.
+    }
+    #endregion
+
+    #region Gift Box
+    private void HandleGiftBoxResult(int giftAmount, GameObject boxRoot, GameObject otherBoxRoot)
+    {
+        gambleAnimationHappening?.Invoke(2f);
+        StartCoroutine(DestroyBoxes(boxRoot, otherBoxRoot));
+        // kazanılan paranın eklenmesi
+    }
+
+    private IEnumerator DestroyBoxes(GameObject boxRoot, GameObject otherBoxRoot)
+    {
+        yield return new WaitForSeconds(3f);
+
+        Destroy(boxRoot);
+        Destroy(otherBoxRoot);
     }
     #endregion
 }

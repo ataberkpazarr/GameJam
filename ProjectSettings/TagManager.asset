@@ -9,6 +9,8 @@ TagManager:
   - DiceOption
   - Coin
   - Parkour
+  - First
+  - Second
   layers:
   - Default
   - TransparentFX

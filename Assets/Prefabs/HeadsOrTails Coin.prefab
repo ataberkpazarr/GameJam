@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8832117690482990653}
   m_Layer: 0
   m_Name: Base
-  m_TagString: Coin
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -40,7 +40,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8832117690482990627}
-  m_Mesh: {fileID: 8519903984823968088, guid: 963fda8e9bda846f9a68ae58c17b71ba, type: 3}
+  m_Mesh: {fileID: 27182089925998419, guid: 60eed7de70a2c407682e9397e90a085b, type: 3}
 --- !u!23 &8832117690482990652
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -60,8 +60,10 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5847439257296160273, guid: 963fda8e9bda846f9a68ae58c17b71ba, type: 3}
-  - {fileID: 1807824137552324952, guid: 963fda8e9bda846f9a68ae58c17b71ba, type: 3}
+  - {fileID: 4062821374920377687, guid: 60eed7de70a2c407682e9397e90a085b, type: 3}
+  - {fileID: 6182671646483818301, guid: 60eed7de70a2c407682e9397e90a085b, type: 3}
+  - {fileID: -6376465031261063515, guid: 60eed7de70a2c407682e9397e90a085b, type: 3}
+  - {fileID: -2961300368806579507, guid: 60eed7de70a2c407682e9397e90a085b, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -123,7 +125,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8832117690549874331}
   m_LocalRotation: {x: 0.5, y: -0.5, z: -0.5, w: 0.5}
-  m_LocalPosition: {x: -0.0008800049, y: 0, z: 0.0014637662}
+  m_LocalPosition: {x: -0.00084, y: 0, z: 0.0014637662}
   m_LocalScale: {x: 0.001, y: 0.001, z: 0.001}
   m_Children: []
   m_Father: {fileID: 8832117690840136287}
