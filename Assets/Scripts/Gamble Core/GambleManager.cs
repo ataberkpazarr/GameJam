@@ -26,7 +26,10 @@ public class GambleManager : MonoBehaviour
     [SerializeField] private List<GameObject> leftOptionsForRockPaperSci;
 
 
-   
+    //heads or tails
+    [SerializeField] private GameObject headsOrTailsCoin;
+    [SerializeField] private Gamble headsOrTails;// her şans oyununun root objesine tanımlanır
+    // player'ın seçimini, ne kadar yatırdığını vs. buradan öğrenebiliriz.
 
 
     private void OnEnable()
@@ -34,6 +37,8 @@ public class GambleManager : MonoBehaviour
         DiceGate.timeForRollingDice += doDiceRolling;
         DiceCheckTrigger.diceRolled += handleRolledDice;
         RockPaperSciGate.timeToPlayRockPaperSci += PlayRockPaperSci;
+        HeadsOrTailsGate.timeToPlayHeadsOrTails += SpawnHeadsOrTailsCoin;
+        HeadOrTailsChecker.coinStopped += HandleHeadsOrTails;
     }
 
     private void OnDisable()
@@ -41,7 +46,8 @@ public class GambleManager : MonoBehaviour
         DiceGate.timeForRollingDice -= doDiceRolling;
         DiceCheckTrigger.diceRolled -= handleRolledDice;
         RockPaperSciGate.timeToPlayRockPaperSci -= PlayRockPaperSci;
-
+        HeadsOrTailsGate.timeToPlayHeadsOrTails -= SpawnHeadsOrTailsCoin;
+        HeadOrTailsChecker.coinStopped -= HandleHeadsOrTails;
     }
 
     private void doDiceRolling(Vector3 vec)
@@ -140,4 +146,26 @@ public class GambleManager : MonoBehaviour
         //scale up/down animasyonu için PlayerController bilgilendirilmeli (amount ile)
         //kaybetme kazanma action ı tanımlayabiliriz?
     }
+
+    #region HeadsOrTails
+    private void SpawnHeadsOrTailsCoin(Vector3 coinPos)
+    {
+        gambleAnimationHappening?.Invoke(3f);
+        GameObject coin = Instantiate(headsOrTailsCoin, coinPos, Quaternion.identity);
+        StartCoroutine(DestroyCoin(coin));
+    }
+
+    private IEnumerator DestroyCoin(GameObject coin)
+    {
+        yield return new WaitForSeconds(5f);
+        Destroy(coin);
+    }
+
+    private void HandleHeadsOrTails(string result)
+    {
+        Debug.LogError(headsOrTails.PlayerChoice + "  " + result);
+
+        // player ın seçimi ile result karşılaştırılır ve altın işlemleri yapılır.
+    }
+    #endregion
 }
