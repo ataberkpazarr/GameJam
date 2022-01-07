@@ -1,13 +1,8 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-//her iki yüzey için
 public class HeadOrTailsChecker : MonoBehaviour
 {
-    [SerializeField] private HeadsOrTailsGate gate;
-
     public static Action<string> coinStopped;
 
     [SerializeField] private Rigidbody parentRigidbody;
@@ -17,15 +12,17 @@ public class HeadOrTailsChecker : MonoBehaviour
     {
         if(parentRigidbody.velocity == Vector3.zero && other.CompareTag("Parkour") && !resultChecked)
         {
-            string result;
+            string result = "";
 
             if (gameObject.name == "Heads")
-                result = "Tails";
-            else
-                result = "Heads";
+                result = "First";
+            else if (gameObject.name == "Tails")
+                result = "Second";
+            else if(gameObject.name == "Nope")// dik gelme durumu
+                result = "Nope";
 
-            coinStopped?.Invoke(result);
             resultChecked = true;
+            coinStopped?.Invoke(result);
         }
     }
 }

@@ -180,9 +180,29 @@ public class GambleManager : MonoBehaviour
 
     private void HandleHeadsOrTails(string result)
     {
-        Debug.LogError(headsOrTails.PlayerChoice + "  " + result);
+        Debug.LogError(headsOrTails.PlayerChoice + "  " + result + "  first bet:" + headsOrTails.BetFirst);
 
-        // player ın seçimi ile result karşılaştırılır ve altın işlemleri yapılır.
+        int coinToAdd = 0;
+
+        if(result == "First")
+        {
+            coinToAdd += headsOrTails.BetFirst * headsOrTails.GainRatio;
+        }
+        else if(result == "Second")
+        {
+            coinToAdd += headsOrTails.BetSecond * headsOrTails.GainRatio;
+        }
+        else if(result == "Nope")// dik gelme durumunda parayı iade ediyoruz???, domuz eski haline dönüyor
+        {
+            int coinSpent = headsOrTails.BetFirst + headsOrTails.BetSecond;
+            CoinManager.Instance.AddCoin(coinSpent);
+
+            Debug.LogError("geriye odenen: " + coinSpent);
+            return;
+        }
+
+        Debug.LogError(coinToAdd);
+        CoinManager.Instance.AddCoin(coinToAdd);
     }
     #endregion
 
@@ -192,6 +212,7 @@ public class GambleManager : MonoBehaviour
         gambleAnimationHappening?.Invoke(2f);
         StartCoroutine(DestroyBoxes(boxRoot, otherBoxRoot));
         // kazanılan paranın eklenmesi
+        CoinManager.Instance.AddCoin(giftAmount);
     }
 
     private IEnumerator DestroyBoxes(GameObject boxRoot, GameObject otherBoxRoot)

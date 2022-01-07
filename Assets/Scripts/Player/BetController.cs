@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BetController : MonoBehaviour
 {
-    [SerializeField] private Transform pig;
+    [SerializeField] [Tooltip("Kaç saniyede bir bet yapacak?")] private float betDeltaTime = 0.5f;
 
     private Gamble currentGamble;
     private string currentGate;//  "First"/"Second"
@@ -14,24 +14,32 @@ public class BetController : MonoBehaviour
     {
         if (other.CompareTag("First") || other.CompareTag("Second"))
         {
-            //ilk oyun ya da yeni oyun oynanacak
-            if (currentGamble == null
+            //(ilk oyun ya da yeni oyun oynanacaksa) ve para varsa
+            if ((currentGamble == null
                 || (currentGamble != null && other.name != currentGamble.gameObject.name))
+                && CoinManager.Instance.CurrentCoin > 0)
             {
                 currentGamble = other.gameObject.GetComponentInParent<Gamble>();
-                InvokeRepeating("Bet", 0f, 0.5f);
+                InvokeRepeating("Bet", 0f, betDeltaTime);
             }
 
             currentGate = other.tag;//yol boyunca sürekli değişebilir  
         }
+
+        if (other.CompareTag("Gate"))//gate e geldiği anda bet işlemi sonlanır
+        {
+            CancelInvoke("Bet");
+        }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-        if(other.CompareTag("First") || other.CompareTag("Second"))
+        if (other.CompareTag("First") || other.CompareTag("Second"))
         {
-            //herhangi bir gate ten geçince bet işlemi biter
-            //CancelInvoke("Bet");
+            if(CoinManager.Instance.CurrentCoin <= 0)// para bittiyse
+            {
+                CancelInvoke("Bet");
+            }
         }
     }
 
@@ -40,10 +48,5 @@ public class BetController : MonoBehaviour
         print("bet " + currentGate);
         //şuanki şans oyununun seçeneklerine para yatırma (yazı/tura vs.)
         currentGamble.Bet(currentGate);
-    }
-
-    public void ChangeGamble(Gamble nextGamble)
-    {
-        currentGamble = nextGamble;
     }
 }

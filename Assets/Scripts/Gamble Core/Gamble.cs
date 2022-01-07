@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Gamble : MonoBehaviour
 {
+    [SerializeField] private int _gainRatio = 2;
+    public int GainRatio => _gainRatio;
+
+    //KULLANILMIYOR
     private string _playerChoice = "";
     public string PlayerChoice// player ın geçtiği gate in ismi
     {
@@ -20,8 +24,9 @@ public class Gamble : MonoBehaviour
             _playerChoice = value;
         }
     }
-
+    
     // player gate lere tam ortadan girerse karşısına çıkan oyundan 2 adet spawn lamasını önlemek için
+    //yeni bet sisteminde gerek yok?
     private bool _activated = false;
     public bool Activated { get => _activated; set => _activated = value; }
 
@@ -32,6 +37,8 @@ public class Gamble : MonoBehaviour
 
     public void Bet(string choice)
     {
+        CoinManager.Instance.AddCoin(-1);//her bet işleminde domuzdan bir altın eksilecek
+
         if(choice == "First")
         {
             betFirst++;

@@ -122,12 +122,6 @@ public class PlayerController : MonoBehaviour
     }
 
     #region Scaling
-    private void ScaleUp()
-    {
-        scalingEndValue += scalingDelta;
-        pig.DOScale(scalingEndValue, scalingDuration);
-    }
-
     public void ScaleByAmount(int amount)
     {
         float losedScale = amount * scalingDelta;//kaybedilen coin miktarı kadar küçülecek
@@ -141,8 +135,7 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("Coin"))
         {
             Destroy(other.gameObject);
-            CoinManager.Instance.CollectCoin();//+1 coin
-            ScaleUp();
+            CoinManager.Instance.AddCoin(1);
         }
     }
 }

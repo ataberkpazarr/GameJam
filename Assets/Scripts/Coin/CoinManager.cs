@@ -5,7 +5,10 @@ public class CoinManager : MonoBehaviour
     private static CoinManager _instance;
     public static CoinManager Instance => _instance ?? (_instance = FindObjectOfType<CoinManager>());
 
-    private int currentCoin;
+    private int _currentCoin = 0;
+    public int CurrentCoin => _currentCoin;
+
+    [SerializeField] private PlayerController playerController;//action la olabilir?
 
     private void Awake()
     {
@@ -15,26 +18,13 @@ public class CoinManager : MonoBehaviour
             Destroy(gameObject);
     }
 
-    private void Start()
-    {
-        currentCoin = 0;
-    }
-
-    //platformdan toplanan
-    public void CollectCoin()
-    {
-        currentCoin++;
-    }
-
     //şans oyunlarından sonra kazanılan coin
     public void AddCoin(int amount)
     {
-        currentCoin += amount;
-    }
+        if (amount == 0)// kazanılan para yoksa
+            return;
 
-    //kaybedilen coin
-    public void RemoveCoin(int amount)
-    {
-        currentCoin -= amount;
+        _currentCoin += amount;
+        playerController.ScaleByAmount(amount);
     }
 }
