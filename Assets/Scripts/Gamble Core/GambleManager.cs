@@ -123,12 +123,27 @@ public class GambleManager : MonoBehaviour
     private IEnumerator ShowFinalChoices(int i, int k,GameObject L, GameObject R)
     {
         yield return new WaitForSeconds(chooseAnimation.length+0.1f);
+        Vector3 vec1 = L.transform.GetChild(0).transform.position;
+        Vector3 vec2 = R.transform.GetChild(0).transform.position;
+
         Destroy(L.gameObject);
         Destroy(R.gameObject);
        
        
-        Instantiate(leftOptionsForRockPaperSci[i].gameObject, leftHandSpawnPosition.position + new Vector3(-1.3f,0,0), Quaternion.identity);
-        Instantiate(rightOptionsForRockPaperSci[k].gameObject, rightHandSpawnPosition.position + new Vector3(1.5f, 0, 0), Quaternion.identity);
+        GameObject g = Instantiate(leftOptionsForRockPaperSci[i].gameObject, leftHandSpawnPosition.position + new Vector3(-1.3f,0,0), Quaternion.identity);
+        //g.transform.GetChild(0).transform.position = leftHandSpawnPosition.position+new Vector3(-3, 4, 0);
+        g.transform.GetChild(0).transform.position = vec1;
+
+        //g.transform.GetChild(0).transform.localPosition = leftHandSpawnPosition.position + new Vector3(0, 0, -50);
+
+        GameObject gg =Instantiate(rightOptionsForRockPaperSci[k].gameObject, rightHandSpawnPosition.position + new Vector3(1.5f, 0, 0), Quaternion.identity);
+        //gg.transform.GetChild(0).transform.position = rightHandSpawnPosition.position +new Vector3(0,4,0);
+        gg.transform.GetChild(0).transform.position = vec2 + new Vector3(-0.6f,0,0);
+
+        
+        //gg.transform.GetChild(0).transform.localPosition = rightHandSpawnPosition.position + new Vector3(0, 0, -50);
+
+
 
         yield return new WaitForSeconds(0.2f);
 
