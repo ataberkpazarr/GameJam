@@ -17,6 +17,12 @@ public class GameManager : MonoBehaviour
     }
 
     //UI Button's method
+    public void StartTheGame()
+    {
+        ActionGameStart?.Invoke();
+    }
+
+    //UI Button's method
     //tek ekran oynanış için
     public void StartGame()
     {

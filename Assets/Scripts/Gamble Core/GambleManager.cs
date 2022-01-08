@@ -8,6 +8,7 @@ public class GambleManager : MonoBehaviour
     public static Action<float> gambleAnimationHappening;
     
     [SerializeField] private GameObject diceRollArea;
+    [SerializeField] private Gamble rollingDice;
 
 
     //rock paper Sci
@@ -166,6 +167,11 @@ public class GambleManager : MonoBehaviour
         //CoinManager.RemoveCoin(amount);
         //scale up/down animasyonu için PlayerController bilgilendirilmeli (amount ile)
         //kaybetme kazanma action ı tanımlayabiliriz?
+
+        //-----------------
+        //Eğer hangi zarın kazandığı bilgisini buraya getirebilirsen geriye sadece
+        //yatırılan paranın kazancını hesaplamak kalacak
+        //yukarıda Gamble tipinde rollingDice tanımladım
     }
 
     #region HeadsOrTails

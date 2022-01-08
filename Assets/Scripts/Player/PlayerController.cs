@@ -32,15 +32,22 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        GameManager.Instance.ActionGameStart += ActivateThePlayer;
+
         runState = new State(Move, () => { }, () => { });
         idleState = new State(Idle, () => { }, () => { });
-        SetState(runState);
+        SetState(idleState);//başta idle
     }
 
     void Update()
     {
         //runState.onUpdate(); // asagıdaki gibi yaptım burayı
         currentState.onUpdate();
+    }
+
+    private void ActivateThePlayer()
+    {
+        SetState(runState);
     }
 
     private void SetState(State newState)
@@ -151,10 +158,11 @@ public class PlayerController : MonoBehaviour
             //Instantiate(goldCollectParticleSystem, transform.GetChild(0).transform.position + new Vector3(0, 1, 4), Quaternion.identity);
 
         }
-        else if (other.CompareTag("obstacle") &&CoinManager.Instance.CurrentCoin >0)
+        else if (other.CompareTag("obstacle") && CoinManager.Instance.CurrentCoin > 0)
         {
             Instantiate(goldLoseParticleSystem,transform.position,Quaternion.identity);
             //parada da azalma lazım su an o yok
+            CoinManager.Instance.AddCoin(-10);
         }
     }
 
@@ -163,5 +171,10 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(duration-2.7f);
         g.SetActive(false);
 
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.Instance.ActionGameStart -= ActivateThePlayer;
     }
 }
