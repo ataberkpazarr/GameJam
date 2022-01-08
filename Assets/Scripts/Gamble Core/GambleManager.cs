@@ -66,11 +66,15 @@ public class GambleManager : MonoBehaviour
 
     }
 
-    private void PlayRockPaperSci()
+    private void PlayRockPaperSci(Vector3 vec)
     {
 
-        GameObject L =Instantiate(leftPersonwithAnim,leftHandSpawnPosition.position ,Quaternion.identity);
-        GameObject R =Instantiate(rightPersonwithAnim, rightHandSpawnPosition.position , Quaternion.identity);
+        //GameObject L =Instantiate(leftPersonwithAnim,leftHandSpawnPosition.position ,Quaternion.identity);
+        //GameObject R =Instantiate(rightPersonwithAnim, rightHandSpawnPosition.position , Quaternion.identity);
+
+        GameObject L = Instantiate(leftPersonwithAnim, vec, Quaternion.identity);
+        GameObject R = Instantiate(rightPersonwithAnim, vec + new Vector3(0.5f,0,0), Quaternion.identity);
+
         bool notFound = true;
         int leftHand=0, rightHand=0;
         System.Random rnd = new System.Random();
@@ -132,13 +136,13 @@ public class GambleManager : MonoBehaviour
        
         GameObject g = Instantiate(leftOptionsForRockPaperSci[i].gameObject, leftHandSpawnPosition.position + new Vector3(-1.3f,0,0), Quaternion.identity);
         //g.transform.GetChild(0).transform.position = leftHandSpawnPosition.position+new Vector3(-3, 4, 0);
-        g.transform.GetChild(0).transform.position = vec1;
+        g.transform.GetChild(0).transform.position = vec1 + new Vector3(-1.2f,0,0);
 
         //g.transform.GetChild(0).transform.localPosition = leftHandSpawnPosition.position + new Vector3(0, 0, -50);
 
         GameObject gg =Instantiate(rightOptionsForRockPaperSci[k].gameObject, rightHandSpawnPosition.position + new Vector3(1.5f, 0, 0), Quaternion.identity);
         //gg.transform.GetChild(0).transform.position = rightHandSpawnPosition.position +new Vector3(0,4,0);
-        gg.transform.GetChild(0).transform.position = vec2 + new Vector3(-0.6f,0,0);
+        gg.transform.GetChild(0).transform.position = vec2 + new Vector3(0.8f,0,0);
 
         
         //gg.transform.GetChild(0).transform.localPosition = rightHandSpawnPosition.position + new Vector3(0, 0, -50);

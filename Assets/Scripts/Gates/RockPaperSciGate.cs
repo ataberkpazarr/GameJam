@@ -5,7 +5,8 @@ using System;
 
 public class RockPaperSciGate : MonoBehaviour
 {
-    public static Action timeToPlayRockPaperSci; 
+    public static Action<Vector3> timeToPlayRockPaperSci;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +24,7 @@ public class RockPaperSciGate : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            timeToPlayRockPaperSci.Invoke();
+            timeToPlayRockPaperSci.Invoke(this.transform.GetChild(0).transform.position);
         }
     }
 

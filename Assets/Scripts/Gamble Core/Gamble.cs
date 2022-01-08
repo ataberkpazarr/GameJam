@@ -30,6 +30,7 @@ public class Gamble : MonoBehaviour
     private bool _activated = false;
     public bool Activated { get => _activated; set => _activated = value; }
 
+
     //bet işlemleri
     private int betFirst = 0, betSecond = 0;
     public int BetFirst => betFirst;
@@ -48,5 +49,7 @@ public class Gamble : MonoBehaviour
             betSecond++;
         }
         print(betFirst + "  " + betSecond);
+
+        
     }
 }

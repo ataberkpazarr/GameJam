@@ -8,6 +8,10 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Transform pig;
     [SerializeField] private GameObject diceThrowArea;
+    [SerializeField] private GameObject goldLoseParticleSystem;
+    [SerializeField] private GameObject goldCollectParticleSystem;
+
+
 
     //specs
     [SerializeField] [Range(0f, 10f)] private float speed = 5f, horizontalSpeed = 1f;
@@ -136,6 +140,28 @@ public class PlayerController : MonoBehaviour
         {
             Destroy(other.gameObject);
             CoinManager.Instance.AddCoin(1);
+            GameObject particleObject = transform.GetChild(0).transform.GetChild(3).gameObject;
+            ParticleSystem p = particleObject.GetComponent<ParticleSystem>();
+            float timeOfOneParticleRound = p.main.duration;
+            particleObject.SetActive(true);
+            p.Play();
+            //StartCoroutine(EndParticleAnimation(particleObject,timeOfOneParticleRound));
+            
+
+            //Instantiate(goldCollectParticleSystem, transform.GetChild(0).transform.position + new Vector3(0, 1, 4), Quaternion.identity);
+
         }
+        else if (other.CompareTag("obstacle") &&CoinManager.Instance.CurrentCoin >0)
+        {
+            Instantiate(goldLoseParticleSystem,transform.position,Quaternion.identity);
+            //parada da azalma lazım su an o yok
+        }
+    }
+
+    private IEnumerator EndParticleAnimation(GameObject g,float duration)
+    {
+        yield return new WaitForSeconds(duration-2.7f);
+        g.SetActive(false);
+
     }
 }

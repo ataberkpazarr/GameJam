@@ -12,6 +12,7 @@ TagManager:
   - First
   - Second
   - Gate
+  - obstacle
   layers:
   - Default
   - TransparentFX
