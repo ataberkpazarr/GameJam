@@ -38,15 +38,15 @@ public class Gamble : MonoBehaviour
 
     public void Bet(string choice)
     {
-        CoinManager.Instance.AddCoin(-1);//her bet işleminde domuzdan bir altın eksilecek
+        CoinManager.Instance.AddCoin(-10);//her bet işleminde domuzdan bir altın eksilecek
 
         if(choice == "First")
         {
-            betFirst++;
+            betFirst+=10;
         }
         else if(choice == "Second")
         {
-            betSecond++;
+            betSecond+=10;
         }
         print(betFirst + "  " + betSecond);
 

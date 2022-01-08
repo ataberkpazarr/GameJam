@@ -16,7 +16,7 @@ public class BetController : MonoBehaviour
         {
             //(ilk oyun ya da yeni oyun oynanacaksa) ve para varsa
             if ((currentGamble == null
-                || (currentGamble != null && other.name != currentGamble.gameObject.name))
+                || (currentGamble != null && other.transform.parent.name != currentGamble.gameObject.name))//bug fixed
                 && CoinManager.Instance.CurrentCoin > 0)
             {
                 currentGamble = other.gameObject.GetComponentInParent<Gamble>();

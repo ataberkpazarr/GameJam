@@ -139,7 +139,7 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("Coin"))
         {
             Destroy(other.gameObject);
-            CoinManager.Instance.AddCoin(1);
+            CoinManager.Instance.AddCoin(10);
             GameObject particleObject = transform.GetChild(0).transform.GetChild(3).gameObject;
             ParticleSystem p = particleObject.GetComponent<ParticleSystem>();
             float timeOfOneParticleRound = p.main.duration;
