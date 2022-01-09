@@ -12,6 +12,7 @@ public class GambleManager : MonoBehaviour
 
 
     //rock paper Sci
+    [SerializeField] private Gamble rockPaperSci;
 
     [SerializeField] private Transform rightHandSpawnPosition;
     [SerializeField] private Transform leftHandSpawnPosition;
@@ -69,6 +70,7 @@ public class GambleManager : MonoBehaviour
 
     private void PlayRockPaperSci(Vector3 vec)
     {
+        string result = "";
 
         //GameObject L =Instantiate(leftPersonwithAnim,leftHandSpawnPosition.position ,Quaternion.identity);
         //GameObject R =Instantiate(rightPersonwithAnim, rightHandSpawnPosition.position , Quaternion.identity);
@@ -96,10 +98,12 @@ public class GambleManager : MonoBehaviour
             if (rightHand == 0 && leftHand == 2)
             {
                 //left lose
+                result = "Second";
             }
             else
             {
                 //left wins
+                result = "First";
             }
 
            
@@ -110,17 +114,41 @@ public class GambleManager : MonoBehaviour
             if (leftHand == 0 && rightHand == 2)
             {
                 //right lose
+                result = "First";
             }
             else
             {
                 //right wins
+                result = "Second";
             }
         }
 
         gambleAnimationHappening.Invoke(chooseAnimation.length+0.3f);
         StartCoroutine(ShowFinalChoices(leftHand, rightHand, L, R));
-        
 
+
+        //çalışması lazım
+        int coinToAdd = 0;
+
+        if (result == "First")
+        {
+            coinToAdd += rockPaperSci.BetFirst * rockPaperSci.GainRatio;
+        }
+        else if (result == "Second")
+        {
+            coinToAdd += rockPaperSci.BetSecond * rockPaperSci.GainRatio;
+        }
+        else if (result == "Nope")//eşit gelme durumu
+        {
+            int coinSpent = rockPaperSci.BetFirst + rockPaperSci.BetSecond;
+            CoinManager.Instance.AddCoin(coinSpent);
+
+            //Debug.LogError("geriye odenen: " + coinSpent);
+            return;
+        }
+
+        Debug.LogError(coinToAdd);
+        CoinManager.Instance.AddCoin(coinToAdd);
 
 
     }
@@ -174,6 +202,29 @@ public class GambleManager : MonoBehaviour
         //Eğer hangi zarın kazandığı bilgisini buraya getirebilirsen geriye sadece
         //yatırılan paranın kazancını hesaplamak kalacak
         //yukarıda Gamble tipinde rollingDice tanımladım
+
+        //çalışıyor galiba
+        int coinToAdd = 0;
+
+        if (s == "First")
+        {
+            coinToAdd += rollingDice.BetFirst * rollingDice.GainRatio;
+        }
+        else if(s == "Second")
+        {
+            coinToAdd += rollingDice.BetSecond * rollingDice.GainRatio;
+        }
+        else if(s == "Nope")//eşit gelme durumu
+        {
+            int coinSpent = rollingDice.BetFirst + rollingDice.BetSecond;
+            CoinManager.Instance.AddCoin(coinSpent);
+
+            //Debug.LogError("geriye odenen: " + coinSpent);
+            return;
+        }
+
+        Debug.LogError(coinToAdd);
+        CoinManager.Instance.AddCoin(coinToAdd);
     }
 
     #region HeadsOrTails
@@ -209,7 +260,7 @@ public class GambleManager : MonoBehaviour
             int coinSpent = headsOrTails.BetFirst + headsOrTails.BetSecond;
             CoinManager.Instance.AddCoin(coinSpent);
 
-            Debug.LogError("geriye odenen: " + coinSpent);
+            //Debug.LogError("geriye odenen: " + coinSpent);
             return;
         }
 

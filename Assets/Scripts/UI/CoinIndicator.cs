@@ -6,12 +6,12 @@ using UnityEngine.UI;
 
 public class CoinIndicator : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI textCoin;
-    [SerializeField] private Image imageBackground;
+    [SerializeField] private Text textCoin;
+    [SerializeField] private RawImage imageBackground;
     [SerializeField] private Camera mainCamera;
     private Vector3 newPos;
 
-    private void Start()
+    private void OnEnable()
     {
         textCoin.transform.position = mainCamera.WorldToScreenPoint(this.transform.position);
         imageBackground.transform.position = textCoin.transform.position;

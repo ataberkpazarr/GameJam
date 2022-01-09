@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class CanvasController : MonoBehaviour
 {
-    [SerializeField] private GameObject canvasMenu, canvasInGame, canvasEndGame;
+    [SerializeField] private Canvas canvasMenu, canvasInGame, canvasEndGame;
+    [SerializeField] private CoinIndicator coinIndicator;
 
 
     private void Start()
@@ -14,21 +15,22 @@ public class CanvasController : MonoBehaviour
 
     private void SetInGameUI()
     {
-        canvasMenu.SetActive(false);
+        canvasMenu.enabled = false;
         StartCoroutine(ActivateInGameUI());
     }
 
     private IEnumerator ActivateInGameUI()//kamera geçişindeki blend işlemini bekliyoruz
     {
-        yield return new WaitForSeconds(0.75f);
+        yield return new WaitForSeconds(0.8f);
 
-        canvasInGame.SetActive(true);
+        canvasInGame.enabled = true;
+        coinIndicator.enabled = true;
     }
 
     private void SetEndGameUI()
     {
-        canvasInGame.SetActive(false);
-        canvasEndGame.SetActive(true);
+        canvasInGame.enabled = false;
+        canvasEndGame.enabled = true;
     }
 
     private void OnDestroy()
