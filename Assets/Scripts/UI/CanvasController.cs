@@ -1,8 +1,9 @@
+using System.Collections;
 using UnityEngine;
 
 public class CanvasController : MonoBehaviour
 {
-    [SerializeField] private Canvas canvasMenu, canvasInGame, canvasEndGame;
+    [SerializeField] private GameObject canvasMenu, canvasInGame, canvasEndGame;
 
 
     private void Start()
@@ -13,14 +14,21 @@ public class CanvasController : MonoBehaviour
 
     private void SetInGameUI()
     {
-        canvasMenu.enabled = false;
-        canvasInGame.enabled = true;
+        canvasMenu.SetActive(false);
+        StartCoroutine(ActivateInGameUI());
+    }
+
+    private IEnumerator ActivateInGameUI()//kamera geçişindeki blend işlemini bekliyoruz
+    {
+        yield return new WaitForSeconds(0.75f);
+
+        canvasInGame.SetActive(true);
     }
 
     private void SetEndGameUI()
     {
-        canvasInGame.enabled = false;
-        canvasEndGame.enabled = true;
+        canvasInGame.SetActive(false);
+        canvasEndGame.SetActive(true);
     }
 
     private void OnDestroy()

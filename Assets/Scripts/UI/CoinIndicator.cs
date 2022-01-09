@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 public class CoinIndicator : MonoBehaviour
 {
-    [SerializeField] private Text textCoin;
-    [SerializeField] private RawImage imageBackground;
+    [SerializeField] private TextMeshProUGUI textCoin;
+    [SerializeField] private Image imageBackground;
     [SerializeField] private Camera mainCamera;
     private Vector3 newPos;
 
