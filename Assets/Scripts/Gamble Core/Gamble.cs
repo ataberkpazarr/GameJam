@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Gamble : MonoBehaviour
 {
+    [SerializeField] private TextMeshPro textBetFirst, textBetSecond;
+
     [SerializeField] private int _gainRatio = 2;
     public int GainRatio => _gainRatio;
 
@@ -43,10 +46,12 @@ public class Gamble : MonoBehaviour
         if(choice == "First")
         {
             betFirst+=10;
+            textBetFirst.text = betFirst.ToString();
         }
         else if(choice == "Second")
         {
             betSecond+=10;
+            textBetSecond.text = betSecond.ToString();
         }
         print(betFirst + "  " + betSecond);
 
