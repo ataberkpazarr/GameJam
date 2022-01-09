@@ -31,7 +31,7 @@ public class GambleManager : MonoBehaviour
     [SerializeField] private GameObject headsOrTailsCoin;
     [SerializeField] private Gamble headsOrTails;// her şans oyununun root objesine tanımlanır
     // player'ın seçimini, ne kadar yatırdığını vs. buradan öğrenebiliriz.
-
+ 
 
     private void OnEnable()
     {
@@ -84,12 +84,12 @@ public class GambleManager : MonoBehaviour
   
              leftHand = rnd.Next(0, 3); //includes min excludes max
              rightHand = rnd.Next(0, 3);
-            if (rightHand != leftHand)
+            if (rightHand != leftHand && rightHand !=2)
             {
                 notFound = false;
             }
 
-        }
+        }   
         //2 for Sci 1 for paper 0 for rock
         if (leftHand >rightHand)
         {
@@ -159,6 +159,8 @@ public class GambleManager : MonoBehaviour
     private void handleRolledDice(int i, string s) // zarlar atıldıktan sonra bu method ateşleniyor, i gelen zar s player zar mı rival zar mı o 
     {
         Debug.Log(i.ToString() + " " + s );
+
+        ////////gelen string Nope First ya da Second
 
         //gerekli total altın azaltma & cogaltma islemi, altın animasyonu vs burada yapılacak ileride
 
