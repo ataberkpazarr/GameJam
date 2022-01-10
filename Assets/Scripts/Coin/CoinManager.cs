@@ -31,6 +31,8 @@ public class CoinManager : Singleton<CoinManager>
         playerController.ScaleByAmount(amount);
     }
 
+  
+
     
 
 }

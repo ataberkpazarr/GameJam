@@ -13,6 +13,7 @@ TagManager:
   - Second
   - Gate
   - obstacle
+  - FinishLine
   layers:
   - Default
   - TransparentFX

@@ -10,7 +10,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject diceThrowArea;
     [SerializeField] private GameObject goldLoseParticleSystem;
     [SerializeField] private GameObject goldCollectParticleSystem;
+    [SerializeField] private GameObject endLevelObject;
 
+
+    public static Action ReachedEndOfLevel;
 
 
     //specs
@@ -163,6 +166,17 @@ public class PlayerController : MonoBehaviour
             Instantiate(goldLoseParticleSystem,transform.position,Quaternion.identity);
             //parada da azalma lazım su an o yok
             CoinManager.Instance.AddCoin(-10);
+        }
+
+        else if (other.CompareTag("FinishLine"))
+        {
+            endLevelObject.SetActive(true);
+            ReachedEndOfLevel.Invoke();
+            //GameObject.SetActive(false);
+            this.gameObject.SetActive(false);
+           
+
+
         }
     }
 

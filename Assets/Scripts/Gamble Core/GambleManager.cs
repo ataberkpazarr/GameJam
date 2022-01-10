@@ -63,8 +63,9 @@ public class GambleManager : MonoBehaviour
 
     private IEnumerator destroyTheDiceArea(GameObject g)
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(4.5f);
         Destroy(g);
+        CameraController.Instance.GoInGameFromDice();
 
     }
 
@@ -178,11 +179,17 @@ public class GambleManager : MonoBehaviour
 
 
 
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(1f);
+
+        Destroy(gg);
+        Destroy(g);
 
 
 
     }
+
+    
+    
 
     private void handleRolledDice(int i, string s) // zarlar atıldıktan sonra bu method ateşleniyor, i gelen zar s player zar mı rival zar mı o 
     {
