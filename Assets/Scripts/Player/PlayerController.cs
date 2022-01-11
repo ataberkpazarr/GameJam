@@ -165,7 +165,7 @@ public class PlayerController : MonoBehaviour
         {
             Instantiate(goldLoseParticleSystem,transform.position,Quaternion.identity);
             //parada da azalma lazım su an o yok
-            CoinManager.Instance.AddCoin(-10);
+            CoinManager.Instance.AddCoin(-20);
         }
 
         else if (other.CompareTag("FinishLine"))

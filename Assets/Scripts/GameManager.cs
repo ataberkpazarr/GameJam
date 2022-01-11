@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -23,15 +24,10 @@ public class GameManager : MonoBehaviour
     }
 
     //UI Button's method
-    //tek ekran oynanış için
-    public void StartGame()
-    {
-        ActionGameStart?.Invoke();
-    }
-
     public void RestartLevel()
     {
         //gerekirse?
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void LoadNextLevel()

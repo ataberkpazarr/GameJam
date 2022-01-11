@@ -14,6 +14,7 @@ TagManager:
   - Gate
   - obstacle
   - FinishLine
+  - EndLevelHammer
   layers:
   - Default
   - TransparentFX

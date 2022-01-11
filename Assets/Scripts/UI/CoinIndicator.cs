@@ -13,6 +13,8 @@ public class CoinIndicator : MonoBehaviour
 
     private void OnEnable()
     {
+        PlayerController.ReachedEndOfLevel += DisableThis;
+
         textCoin.transform.position = mainCamera.WorldToScreenPoint(this.transform.position);
         imageBackground.transform.position = textCoin.transform.position;
     }
@@ -36,5 +38,17 @@ public class CoinIndicator : MonoBehaviour
             textCoin.transform.position.y,
             textCoin.transform.position.z);
         imageBackground.transform.position = textCoin.transform.position;
+    }
+
+    private void DisableThis()
+    {
+        Destroy(textCoin.gameObject);
+        Destroy(imageBackground.gameObject);
+        Destroy(this.gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        PlayerController.ReachedEndOfLevel -= DisableThis;
     }
 }

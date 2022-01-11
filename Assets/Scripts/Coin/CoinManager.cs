@@ -27,6 +27,12 @@ public class CoinManager : Singleton<CoinManager>
         if (amount == 0)// kazanılan para yoksa
             return;
 
+        if (amount < 0 && Mathf.Abs(amount) > _currentCoin)// eğer kaybedilen para var olandan yüksek ise
+        {
+            _currentCoin = 0;
+            return;
+        }
+            
         _currentCoin += amount;
         playerController.ScaleByAmount(amount);
     }

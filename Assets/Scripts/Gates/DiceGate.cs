@@ -8,6 +8,8 @@ public class DiceGate : MonoBehaviour
     public static Action <Vector3> timeForRollingDice; // the position where dice rolling area will be instantiated will be send as parameter
     private Vector3 positionForDiceArena;
 
+    [SerializeField] private Gamble gamble;
+
     void Start()
     {
         GameObject positionForDiceArenaObject = transform.GetChild(0).gameObject;
@@ -16,8 +18,9 @@ public class DiceGate : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && !gamble.Activated)
         {
+            gamble.Activated = true;
             timeForRollingDice.Invoke(positionForDiceArena);
         }
     }

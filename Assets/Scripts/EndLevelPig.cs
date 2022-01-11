@@ -12,36 +12,49 @@ public class EndLevelPig : MonoBehaviour
     ParticleSystem pConfetti;
 
     private int TotalHit=0;
+    private int currentHit = 0;
+    private int currentCoinForuUI = 0;
 
     public static Action timeForConfetti;
+
     private void Start()
     {
-         particleObjectGold = transform.GetChild(5).gameObject;
-         pGold = particleObjectGold.GetComponent<ParticleSystem>();
+        particleObjectGold = transform.GetChild(5).gameObject;
+        pGold = particleObjectGold.GetComponent<ParticleSystem>();
 
         particleObjectConffeti = transform.GetChild(6).gameObject;
         pConfetti = particleObjectConffeti.GetComponent<ParticleSystem>();
+
+        TotalHit = 4;
+        
     }
 
     
     private void OnTriggerEnter(Collider other)
     {
-        if (TotalHit ==0)
+        if(other.CompareTag("EndLevelHammer"))
         {
-            TotalHit = TotalHit + 1;
+            if (TotalHit == 0)
+            {
+                currentHit = currentHit + 1;
+                CanvasController.Instance.UpdateMiniGamecoinText(currentCoinForuUI);
+            }
+            else if (currentHit < TotalHit)
+            {
+                particleObjectGold.SetActive(true);
+                pGold.Play();
+                currentHit = currentHit + 1;
+                currentCoinForuUI += CoinManager.Instance.CurrentCoin / 4;
+                CanvasController.Instance.UpdateMiniGamecoinText(currentCoinForuUI);
+            }
+            else if (currentHit == TotalHit)
+            {
+                timeForConfetti.Invoke();
+                particleObjectConffeti.SetActive(true);
+                pConfetti.Play();
+                GameManager.Instance.ActionGameOver?.Invoke();
+            }
         }
-        else if (TotalHit<4)
-        {
-            particleObjectGold.SetActive(true);
-            pGold.Play();
-            TotalHit = TotalHit + 1;
-        }
-
-        else if (TotalHit >=4)
-        {
-            timeForConfetti.Invoke();
-            particleObjectConffeti.SetActive(true);
-            pConfetti.Play();
-        }
+        
     }
 }

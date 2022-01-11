@@ -5,6 +5,8 @@ using System;
 
 public class GambleManager : MonoBehaviour
 {
+    private Gamble currentGamble;
+
     public static Action<float> gambleAnimationHappening;
     
     [SerializeField] private GameObject diceRollArea;
@@ -71,6 +73,7 @@ public class GambleManager : MonoBehaviour
 
     private void PlayRockPaperSci(Vector3 vec)
     {
+        currentGamble = rockPaperSci;
         string result = "";
 
         //GameObject L =Instantiate(leftPersonwithAnim,leftHandSpawnPosition.position ,Quaternion.identity);
@@ -125,36 +128,10 @@ public class GambleManager : MonoBehaviour
         }
 
         gambleAnimationHappening.Invoke(chooseAnimation.length+0.3f);
-        StartCoroutine(ShowFinalChoices(leftHand, rightHand, L, R));
-
-
-        //çalışması lazım
-        int coinToAdd = 0;
-
-        if (result == "First")
-        {
-            coinToAdd += rockPaperSci.BetFirst * rockPaperSci.GainRatio;
-        }
-        else if (result == "Second")
-        {
-            coinToAdd += rockPaperSci.BetSecond * rockPaperSci.GainRatio;
-        }
-        else if (result == "Nope")//eşit gelme durumu
-        {
-            int coinSpent = rockPaperSci.BetFirst + rockPaperSci.BetSecond;
-            CoinManager.Instance.AddCoin(coinSpent);
-
-            //Debug.LogError("geriye odenen: " + coinSpent);
-            return;
-        }
-
-        Debug.LogError(coinToAdd);
-        CoinManager.Instance.AddCoin(coinToAdd);
-
-
+        StartCoroutine(ShowFinalChoices(leftHand, rightHand, L, R, result));
     }
 
-    private IEnumerator ShowFinalChoices(int i, int k,GameObject L, GameObject R)
+    private IEnumerator ShowFinalChoices(int i, int k,GameObject L, GameObject R, string result)
     {
         yield return new WaitForSeconds(chooseAnimation.length+0.1f);
         Vector3 vec1 = L.transform.GetChild(0).transform.position;
@@ -184,15 +161,40 @@ public class GambleManager : MonoBehaviour
         Destroy(gg);
         Destroy(g);
 
+        //#region Calculating The Gain
+        ////çalışması lazım
+        //int coinToAdd = 0;
+        //
+        //if (result == "First")
+        //{
+        //    coinToAdd += rockPaperSci.BetFirst * rockPaperSci.GainRatio;
+        //}
+        //else if (result == "Second")
+        //{
+        //    coinToAdd += rockPaperSci.BetSecond * rockPaperSci.GainRatio;
+        //}
+        //else if (result == "Nope")//eşit gelme durumu
+        //{
+        //    int coinSpent = rockPaperSci.BetFirst + rockPaperSci.BetSecond;
+        //    CoinManager.Instance.AddCoin(coinSpent);
+        //
+        //    //Debug.LogError("geriye odenen: " + coinSpent);
+        //    yield break;
+        //}
+        //
+        //Debug.LogError(coinToAdd);
+        //CoinManager.Instance.AddCoin(coinToAdd);
+        //#endregion
 
-
+        CalculateTheGain(result);
     }
 
-    
-    
+
+
 
     private void handleRolledDice(int i, string s) // zarlar atıldıktan sonra bu method ateşleniyor, i gelen zar s player zar mı rival zar mı o 
     {
+        currentGamble = rollingDice;
         Debug.Log(i.ToString() + " " + s );
 
         ////////gelen string Nope First ya da Second
@@ -210,28 +212,32 @@ public class GambleManager : MonoBehaviour
         //yatırılan paranın kazancını hesaplamak kalacak
         //yukarıda Gamble tipinde rollingDice tanımladım
 
-        //çalışıyor galiba
-        int coinToAdd = 0;
+        //#region Calculating The Gain
+        ////çalışıyor galiba
+        //int coinToAdd = 0;
+        //
+        //if (s == "First")
+        //{
+        //    coinToAdd += rollingDice.BetFirst * rollingDice.GainRatio;
+        //}
+        //else if(s == "Second")
+        //{
+        //    coinToAdd += rollingDice.BetSecond * rollingDice.GainRatio;
+        //}
+        //else if(s == "Nope")//eşit gelme durumu
+        //{
+        //    int coinSpent = rollingDice.BetFirst + rollingDice.BetSecond;
+        //    CoinManager.Instance.AddCoin(coinSpent);
+        //
+        //    //Debug.LogError("geriye odenen: " + coinSpent);
+        //    return;
+        //}
+        //
+        //Debug.LogError(coinToAdd);
+        //CoinManager.Instance.AddCoin(coinToAdd);
+        //#endregion
 
-        if (s == "First")
-        {
-            coinToAdd += rollingDice.BetFirst * rollingDice.GainRatio;
-        }
-        else if(s == "Second")
-        {
-            coinToAdd += rollingDice.BetSecond * rollingDice.GainRatio;
-        }
-        else if(s == "Nope")//eşit gelme durumu
-        {
-            int coinSpent = rollingDice.BetFirst + rollingDice.BetSecond;
-            CoinManager.Instance.AddCoin(coinSpent);
-
-            //Debug.LogError("geriye odenen: " + coinSpent);
-            return;
-        }
-
-        Debug.LogError(coinToAdd);
-        CoinManager.Instance.AddCoin(coinToAdd);
+        CalculateTheGain(s);
     }
 
     #region HeadsOrTails
@@ -250,29 +256,35 @@ public class GambleManager : MonoBehaviour
 
     private void HandleHeadsOrTails(string result)
     {
+        currentGamble = headsOrTails;
+
         Debug.LogError(headsOrTails.PlayerChoice + "  " + result + "  first bet:" + headsOrTails.BetFirst);
 
-        int coinToAdd = 0;
+        //#region Calculating The Gain
+        //int coinToAdd = 0;
+        //
+        //if(result == "First")
+        //{
+        //    coinToAdd += headsOrTails.BetFirst * headsOrTails.GainRatio;
+        //}
+        //else if(result == "Second")
+        //{
+        //    coinToAdd += headsOrTails.BetSecond * headsOrTails.GainRatio;
+        //}
+        //else if(result == "Nope")// dik gelme durumunda parayı iade ediyoruz???, domuz eski haline dönüyor
+        //{
+        //    int coinSpent = headsOrTails.BetFirst + headsOrTails.BetSecond;
+        //    CoinManager.Instance.AddCoin(coinSpent);
+        //
+        //    //Debug.LogError("geriye odenen: " + coinSpent);
+        //    return;
+        //}
+        //
+        //Debug.LogError(coinToAdd);
+        //CoinManager.Instance.AddCoin(coinToAdd);
+        //#endregion
 
-        if(result == "First")
-        {
-            coinToAdd += headsOrTails.BetFirst * headsOrTails.GainRatio;
-        }
-        else if(result == "Second")
-        {
-            coinToAdd += headsOrTails.BetSecond * headsOrTails.GainRatio;
-        }
-        else if(result == "Nope")// dik gelme durumunda parayı iade ediyoruz???, domuz eski haline dönüyor
-        {
-            int coinSpent = headsOrTails.BetFirst + headsOrTails.BetSecond;
-            CoinManager.Instance.AddCoin(coinSpent);
-
-            //Debug.LogError("geriye odenen: " + coinSpent);
-            return;
-        }
-
-        Debug.LogError(coinToAdd);
-        CoinManager.Instance.AddCoin(coinToAdd);
+        CalculateTheGain(result);
     }
     #endregion
 
@@ -293,4 +305,29 @@ public class GambleManager : MonoBehaviour
         Destroy(otherBoxRoot);
     }
     #endregion
+
+    private void CalculateTheGain(string result)
+    {
+        int coinToAdd = 0;
+
+        if (result == "First")
+        {
+            coinToAdd += currentGamble.BetFirst * currentGamble.GainRatio;
+        }
+        else if (result == "Second")
+        {
+            coinToAdd += currentGamble.BetSecond * currentGamble.GainRatio;
+        }
+        else if (result == "Nope")// dik gelme ya da beraberlik durumları
+        {
+            int coinSpent = currentGamble.BetFirst + currentGamble.BetSecond;
+            CoinManager.Instance.AddCoin(coinSpent);
+
+            //Debug.LogError("geriye odenen: " + coinSpent);
+            return;
+        }
+
+        Debug.LogError(coinToAdd);
+        CoinManager.Instance.AddCoin(coinToAdd);
+    }
 }

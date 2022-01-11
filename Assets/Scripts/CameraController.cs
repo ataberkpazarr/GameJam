@@ -27,8 +27,8 @@ public class CameraController : Singleton<CameraController>
     }
     private void GoDiceCamera(Vector3 vec)
     {
-        cmInGame.enabled = false;
-        cmDice.enabled = true;
+        //cmInGame.enabled = false;
+        //cmDice.enabled = true;
 
     }
     public void SetInGameCamera()
