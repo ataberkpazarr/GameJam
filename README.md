@@ -1,5 +1,7 @@
 # GameJam
 
+Video of the game: https://drive.google.com/file/d/1bVHkJsYale0aOiGZ47TyGeM1FCOO4s4G/view?usp=sharing
+
 Gamejam is arranged by the bootcamp of Patika.dev & Rollic games and the main theme was designing&implementing of a games of chance.
 
 As a team, which consists of 2 artist and 2 developers we built it in 5-7 days. We tried to implement a spin-off of the Wish You Luck game of Rollic Games and changeed theme in a smoother way. The main mechanic is as following: piggy is being controlled by slide mechanics and as long as we collect coins, scale of the pig is being increased, if the piggy collides with hammer, it lose coins and its scale decreases. At the end of level game asks player to tap for collecting coins which it already collected, at every tap, hammer hits to piggy and player gains the coins that it collected during the level.
